@@ -3,7 +3,8 @@ import React from 'react'
 import './App.css'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
-function App() {
+function App() 
+{
   const navigate = useNavigate()
   const [email,setemail]=useState("") 
   const [password,setpassword]=useState("")
@@ -22,8 +23,10 @@ function App() {
   };
   function check()
   {
-    var Logindetails=axios.post("https://netflix-server-peach.vercel.app/",{"email":email,"password":password})
-    Logindetails.then((data)=>{
+   var Logindetails = axios.post("https://netflix-server-peach.vercel.app/login", {
+  email: email,
+  password: password});
+
       if(data.data==true)
       {
         navigate("/success")
@@ -33,7 +36,7 @@ function App() {
         navigate("/fail")
 
       }
-    })
+    }
 
   }
   return (
@@ -90,7 +93,7 @@ function App() {
       </div>
     </div>
   )
-}
+
 
 export default App
 
