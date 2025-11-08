@@ -1,51 +1,55 @@
-import { useState } from 'react'
-import React from 'react'
-import './App.css'
-import axios from 'axios'
-import { useNavigate } from "react-router-dom"
-function App() 
-{
-  const navigate = useNavigate()
-  const [email,setemail]=useState("") 
-  const [password,setpassword]=useState("")
-  const handleEmail=(evt)=>{
-    setemail(evt.target.value)
+import React, { useState } from 'react';
+import './App.css';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-  }
-  const handlePassword=(evt)=>{
-    setpassword(evt.target.value)
+function App() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  }
-   const handleKeyPress = (evt) => {
+  // Handle email input
+  const handleEmail = (evt) => {
+    setEmail(evt.target.value);
+  };
+
+  // Handle password input
+  const handlePassword = (evt) => {
+    setPassword(evt.target.value);
+  };
+
+  // Allow "Enter" key to trigger login
+  const handleKeyPress = (evt) => {
     if (evt.key === 'Enter') {
       check();
     }
   };
-  function check()
-  {
-   var Logindetails = axios.post("https://netflix-server-peach.vercel.app/login", {
-  email: email,
-  password: password});
 
-      if(data.data==true)
-      {
-        navigate("/success")
-
-      }
-      else{
-        navigate("/fail")
-
-      }
-    }
-
+  // Login check function
+  function check() {
+    axios.post("https://netflix-server-peach.vercel.app/login", {
+      email: email,
+      password: password
+    })
+      .then((data) => {
+        if (data.data === true) {
+          navigate("/success");
+        } else {
+          navigate("/fail");
+        }
+      })
+      .catch((err) => {
+        console.error("Login error:", err);
+      });
   }
+
   return (
-     <div className="min-h-screen flex items-center justify-center relative">
-      <img 
-        src='../public/bg-image.jpg' 
-        className="absolute inset-0 w-full h-full object-cover"
-        alt="background"
-      />
+    <div className="min-h-screen flex items-center justify-center relative">
+     <img
+  src="/bg-image.jpg"
+  className="absolute inset-0 w-full h-full object-cover"
+  alt="background"/>
+
       <div className="absolute inset-0 bg-black/60"></div>
       <div className="absolute top-6 left-6 z-20 text-red-600 text-4xl font-extrabold">
         Netflix
@@ -66,11 +70,14 @@ function App()
             name="password"
             placeholder="Password"
             onChange={handlePassword}
-             onKeyPress={handleKeyPress}
+            onKeyPress={handleKeyPress}
             className="bg-[#333] placeholder-gray-400 text-white px-4 py-3 rounded focus:outline-none border border-transparent focus:border-red-600"
           />
 
-          <button onClick={check} className="mt-2 bg-red-600 hover:bg-red-700 transition-colors duration-150 text-white py-3 rounded font-semibold">
+          <button
+            onClick={check}
+            className="mt-2 bg-red-600 hover:bg-red-700 transition-colors duration-150 text-white py-3 rounded font-semibold"
+          >
             Sign In
           </button>
 
@@ -92,8 +99,7 @@ function App()
         </p>
       </div>
     </div>
-  )
+  );
+}
 
-
-export default App
-
+export default App;
